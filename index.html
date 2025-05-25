@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mapa Interactivo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      var map = L.map("map").setView([20, 0], 2);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+
+      let currentAudio = null;
+
+      var marker = L.marker([41.928993, 3.007373]).addTo(map);
+      marker.bindPopup("Ranas en el río").on("click", function () {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+        currentAudio = new Audio(
+          "https://vegamontero.github.io/mapa-de-sonidos/audio/MAPA%20DE%20SONIDOS%20ranitas.wav"
+        );
+        currentAudio.play();
+      });
+
+      const soundPoints = [
+        {
+          name: "Cala Aigua Xelida",
+          coords: [41.921745, 3.216209],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/aigua%20xelida%20MAPA%20DE%20SONIDOS.wav",
+        },
+        {
+          name: "Ballenas Piloto",
+          coords: [27.800992, -16.866002],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/MAPA%20DE%20SONIDOS%20ballenatos.wav",
+        },
+        {
+          name: "Tormenta",
+          coords: [-30.874922, -64.536207],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/tormenta%20Capilla%20del%20Monte%20MAPA%20DE%20SONIDOS.wav",
+        },
+        {
+          name: "Campanas iglesia Vulpellac",
+          coords: [41.960212, 3.055078],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/campanas%20MAPA%20DE%20SONIDOS.wav",
+        },
+        {
+          name: "Río (Almenara)",
+          coords: [41.058284, -5.820709],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/Río%20Almenara%20de%20Tormes%20MAPA%20DE%20SONIDOS.wav",
+        },
+        {
+          name: "Río (Capilla)",
+          coords: [-30.886437, -64.544319],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/Río%20Capilla%20MAPA%20DE%20SONIDOS.wav",
+        },
+        {
+          name: "Pájaros (Palau Sator)",
+          coords: [41.974228, 3.112794],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/Ocells%20Palau%20Sator%20MAPA%20DE%20SONIDOS.wav",
+        },
+        {
+          name: "Pájaros (Vulpellac)",
+          coords: [41.965648, 3.045005],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/pájaros%20vulpellac%202.wav",
+        },
+        {
+          name: "Salto de agua",
+          coords: [42.213867, 2.510166],
+          audioUrl:
+            "https://vegamontero.github.io/mapa-de-sonidos/audio/salt%20d'aigua%20MAPA%20DE%20SONIDOS.wav",
+        },
+      ];
+
+      soundPoints.forEach((point) => {
+        const marker = L.marker(point.coords).addTo(map);
+        marker.bindPopup(point.name).on("click", function () {
+          if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+          }
+          currentAudio = new Audio(point.audioUrl);
+          currentAudio.play();
+        });
+      });
+
+      map.on("click", function () {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+          currentAudio = null;
+        }
+      });
+    </script>
+  </body>
+</html>
