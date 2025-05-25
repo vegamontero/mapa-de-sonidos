@@ -52,14 +52,13 @@
         });
       });
     });
-
-    map.on('click', () => {
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        currentAudio = null;
-      }
-    });
+  map.on('click', () => {
+  console.log('Mapa clicado, paro audio');
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+});
   </script>
 </body>
 </html>
