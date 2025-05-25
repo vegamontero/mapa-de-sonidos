@@ -40,7 +40,8 @@
       const marker = L.marker(coords).addTo(map).bindPopup(titulo);
 
       marker.on('click', (e) => {
-        e.originalEvent.stopPropagation();  // Para que el click en marcador no dispare el evento del mapa
+        e.originalEvent.stopPropagation(); // Evitar propagación al mapa
+
         if (currentAudio) {
           currentAudio.pause();
           currentAudio.currentTime = 0;
@@ -52,7 +53,6 @@
       });
     });
 
-    // Evento para clicks en el mapa (fuera de marcadores)
     map.on('click', () => {
       if (currentAudio) {
         currentAudio.pause();
