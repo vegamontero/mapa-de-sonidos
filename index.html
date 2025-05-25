@@ -32,14 +32,15 @@
       { coords: [41.974228, 3.112794], titulo: 'Pájaros Palausator', audioSrc: 'audio/ocellspalausator.mp3' },
       { coords: [41.929157, 3.005759], titulo: 'Ranitas', audioSrc: 'audio/ranitas.mp3' },
       { coords: [41.058284, -5.820709], titulo: 'Río Almenara', audioSrc: 'audio/rioalmenara.mp3' }
-   ];
+    ];
 
     let currentAudio = null;
 
     puntos.forEach(({ coords, titulo, audioSrc }) => {
       const marker = L.marker(coords).addTo(map).bindPopup(titulo);
 
-      marker.on('click', () => {
+      marker.on('click', (e) => {
+        e.originalEvent.stopPropagation();  // Para que el click en marcador no dispare el evento del mapa
         if (currentAudio) {
           currentAudio.pause();
           currentAudio.currentTime = 0;
@@ -50,7 +51,15 @@
         });
       });
     });
+
+    // Evento para clicks en el mapa (fuera de marcadores)
+    map.on('click', () => {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+      }
+    });
   </script>
 </body>
 </html>
-
